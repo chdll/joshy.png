@@ -15,6 +15,8 @@
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <script>
+    
+    let distracted = false;
       // Updates lastMouseMoveTime when the mouse is moved
     var lastInputTime = Date();
     var keyboardMouseInput = function () {
@@ -39,12 +41,14 @@
       }
       else{
         document.getElementById('timeValue').textContent = timeDifference.toString();
-        distracted = false;
       };
     }, 1000);
 
     //placeholder for function when they are distracted
-    function distractedUser(){}
+    function distractedUser(){
+      distracted = false
+      console.log("User is distracted")
+    }
 
     // Time at start of program
     // probably change to be initialised when user presses start
@@ -57,20 +61,23 @@
       console.log("5 Minute Break Timer Started at: " + (new Date()).toDateString());
     };
     function scheduleTimers() {
-      startPomodoroTimer();
-      const elapsedTime = Math.floor((new Date() - startTime) / 1000) * 1000;
-      
+      startPomodoroTimer(); // Start the Pomodoro timer immediately
+
       setInterval(() => {
-        if(elapsedTime % 30000 === 0 && elapsedTime !== 0) {
+        const elapsedTime = Date.now() - startTime; // Calculate elapsed time in milliseconds
+
+        // Trigger startPomodoroTimer every 30 seconds
+        if (elapsedTime % 30000 < 1000 && elapsedTime > 0) {
           startPomodoroTimer();
         }
-        else if(elapsedTime % 30000 === 25000) {
+        // Trigger startBreakTimer 25 seconds into each 30-second cycle
+        else if (elapsedTime % 30000 >= 25000 && elapsedTime % 30000 < 26000) {
           startBreakTimer();
         }
-        console.log("elapsed time: " + elapsedTime
-        + "elapsed time % 30000:" + ((elapsedTime / 1000) % 30) * 1000);
-      }, 1000); // Check every second
-    }
+
+        console.log("Elapsed time: " + elapsedTime + " ms");
+    }, 1000); // Check every second
+}
     scheduleTimers()
     </script>
   </body>
