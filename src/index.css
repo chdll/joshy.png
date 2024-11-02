@@ -5,3 +5,8 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+video {
+  height : 50%;
+  width : 100%;
+  object-fit:fill;
+} 
