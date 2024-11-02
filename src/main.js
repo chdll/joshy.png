@@ -5,9 +5,34 @@ const path = require('node:path');
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+let fader;
+function fadeout(){
+  if(fader != null){
+    clearInterval(fader)
+    fader = null
+  }
+  fader = setInterval(fade, 10, true);
+}
 function fadein(){
+  if(fader != null){
+    clearInterval(fader)
+    fader = null
+  }
+  fader = setInterval(fade, 10, false)
+}
+function fade(fadeout){
   const win = BrowserWindow.getFocusedWindow();
-  win.setOpacity(0.1);
+  const winop = win.getOpacity();
+  if (winop <= 0 && fadeout|| winop >= 1 && !fadeout){
+    clearInterval(fader);
+    fader = null;
+  }else{
+    if (fadeout){
+      win.setOpacity(winop - 0.01);
+    }else{
+      win.setOpacity(winop + 0.01);
+    }
+  }
 }
 const createWindow = () => {
   // Create the browser window.
@@ -36,7 +61,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-    ipcMain.on('fadein', fadein)
+    ipcMain.on('fadeout', fadeout)
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the
