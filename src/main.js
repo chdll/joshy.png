@@ -51,12 +51,12 @@ app.on('window-all-closed', () => {
   }
 });
 
-var lastMouseMoveTime = Date()
 
+// Updates lastMouseMoveTime when the mouse is moved
+var lastMouseMoveTime = Date()
 var mouseMoved = function () {
   lastMouseMoveTime = new Date()
 }
-
 document.addEventListener('mousemove', mouseMoved, false);
 
 // In this file you can include the rest of your app's specific main process
