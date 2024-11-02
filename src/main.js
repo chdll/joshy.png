@@ -1,11 +1,39 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, webFrame, ipcRenderer, ipcMain } = require('electron');
 const path = require('node:path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
-
+let fader;
+function fadeout(){
+  if(fader != null){
+    clearInterval(fader)
+    fader = null
+  }
+  fader = setInterval(fade, 10, true);
+}
+function fadein(){
+  if(fader != null){
+    clearInterval(fader)
+    fader = null
+  }
+  fader = setInterval(fade, 10, false)
+}
+function fade(fadeout){
+  const win = BrowserWindow.getFocusedWindow();
+  const winop = win.getOpacity();
+  if (winop <= 0 && fadeout|| winop >= 1 && !fadeout){
+    clearInterval(fader);
+    fader = null;
+  }else{
+    if (fadeout){
+      win.setOpacity(winop - 0.01);
+    }else{
+      win.setOpacity(winop + 0.01);
+    }
+  }
+}
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -26,12 +54,14 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+    ipcMain.on('fadeout', fadeout)
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the
