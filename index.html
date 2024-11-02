@@ -10,5 +10,13 @@
     <p>Welcome to your Electron application.</p>
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
+    <script>
+      // Updates lastMouseMoveTime when the mouse is moved
+    var lastMouseMoveTime = Date()
+    var mouseMoved = function () {
+      lastMouseMoveTime = new Date()
+    }
+    document.addEventListener('mousemove', mouseMoved, false);
+    </script>
   </body>
 </html>
