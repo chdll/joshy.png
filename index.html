@@ -8,35 +8,75 @@
   <body>
     <h1>💖 Hello World!</h1>
     <p>Welcome to your Electron application.</p>
+<<<<<<< HEAD
     <p id="timeDisplay">Last Mouse Move Time: <span id="timeValue"></span></p>
     <video src="https://cdn.zilpe.co.uk/plssub.mp4" autoplay loop muted></video>
     <button type = "button" id = "fadeout">fade out</button>
+=======
+    <p id="timeDisplay">Time since last input: <span id="timeValue"></span></p>
+
+    <video src="https://cdn.zilpe.co.uk/plssub.mp4" autoplay loop width="250"/>
+
+>>>>>>> struff
 
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <script>
       // Updates lastMouseMoveTime when the mouse is moved
-    var lastMouseMoveTime = Date();
-    var mouseMoved = function () {
-      lastMouseMoveTime = new Date();
+    var lastInputTime = Date();
+    var keyboardMouseInput = function () {
+      lastInputTime = new Date();
     }
-    document.addEventListener('mousemove', mouseMoved, false);
+    document.addEventListener('mousemove', keyboardMouseInput, false);
+    document.addEventListener('keydown', keyboardMouseInput, false);
+    document.addEventListener('keyup', keyboardMouseInput, false);
 
     // Check time difference every second
     setInterval(() => {
       const currentTime = new Date();
-      const timeDifference = (currentTime - lastMouseMoveTime) / 1000; // Convert to seconds
+      const timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
 
-      if (timeDifference > 20) {
-        myFunction(); // Call the function if more than 20 seconds elapse
+      if(typeof timeDifference === NaN){
+        timeDifference = 0
+      };
+
+      if(timeDifference > 20) {
+        distractedUser(); // Call the function if more than 20 seconds elapse between inputs
       }
       else{
-        document.getElementById('timeDisplay').textContent = timeDifference.toString();
+        document.getElementById('timeValue').textContent = timeDifference.toString();
       };
-    
-    
+    }, 1000);
 
+    //placeholder for function when they are distracted
+    function distractedUser(){}
+
+    // Time at start of program
+    // probably change to be initialised when user presses start
+    const startTime = new Date();
+
+    function startPomodoroTimer() {
+      console.log("25 Minute Timer Started at: " + (new Date()).toDateString());
+    };
+    function startBreakTimer() {
+      console.log("5 Minute Break Timer Started at: " + (new Date()).toDateString());
+    };
+    function scheduleTimers() {
+      startPomodoroTimer();
+      const elapsedTime = Math.floor((new Date() - startTime) / 1000) * 1000;
+      
+      setInterval(() => {
+        if(elapsedTime % 30000 === 0 && elapsedTime !== 0) {
+          startPomodoroTimer();
+        }
+        else if(elapsedTime % 30000 === 25000) {
+          startBreakTimer();
+        }
+        console.log("elapsed time: " + elapsedTime
+        + "elapsed time % 30000:" + ((elapsedTime / 1000) % 30) * 1000);
       }, 1000); // Check every second
+    }
+    scheduleTimers()
     </script>
   </body>
 </html>
