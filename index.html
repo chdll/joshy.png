@@ -33,11 +33,13 @@
         timeDifference = 0
       };
 
-      if(timeDifference > 20) {
+      if(timeDifference > 20 && distracted == false) {
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
+        distracted = true;
       }
       else{
         document.getElementById('timeValue').textContent = timeDifference.toString();
+        distracted = false;
       };
     }, 1000);
 
