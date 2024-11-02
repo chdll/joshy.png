@@ -8,6 +8,7 @@
   <body>
     <h1>💖 Hello World!</h1>
     <p>Welcome to your Electron application.</p>
+    <p id="timeDisplay">Last Mouse Move Time: <span id="timeValue"></span></p>
 
     <video src="https://cdn.zilpe.co.uk/plssub.mp4" autoplay loop width="250"/>
 
@@ -16,11 +17,27 @@
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <script>
       // Updates lastMouseMoveTime when the mouse is moved
-    var lastMouseMoveTime = Date()
+    var lastMouseMoveTime = Date();
     var mouseMoved = function () {
-      lastMouseMoveTime = new Date()
+      lastMouseMoveTime = new Date();
     }
     document.addEventListener('mousemove', mouseMoved, false);
+
+    // Check time difference every second
+    setInterval(() => {
+      const currentTime = new Date();
+      const timeDifference = (currentTime - lastMouseMoveTime) / 1000; // Convert to seconds
+
+      if (timeDifference > 20) {
+        myFunction(); // Call the function if more than 20 seconds elapse
+      }
+      else{
+        document.getElementById('timeDisplay').textContent = timeDifference.toString();
+      };
+    
+    
+
+      }, 1000); // Check every second
     </script>
   </body>
 </html>
