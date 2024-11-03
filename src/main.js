@@ -28,9 +28,17 @@ function fade(fadeout){
     fader = null;
   }else{
     if (fadeout){
-      win.setOpacity(winop - 0.01);
+      if (winop - 0.01 >= 0){
+        win.setOpacity(winop - 0.01);
+      } else {
+        win.setOpacity(0)
+      }
     }else{
-      win.setOpacity(winop + 0.01);
+      if (winop + 0.01 <= 1){
+        win.setOpacity(winop + 0.01);
+      } else {
+        win.setOpacity(1)
+      }
     }
   }
 }
@@ -48,6 +56,7 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+  mainWindow.setPosition(0, 0)
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -57,7 +66,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   
 };
 
