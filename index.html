@@ -34,18 +34,16 @@
     setInterval(() => {
       const currentTime = new Date();
       timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
+      
 
-
-      if (true) {
+      if((timeDifference > 10.0 && lookingAway) && distracted == false) {
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
         distracted = true;
       }
-      else if (timeDifference <= 20 && distracted) {
-        if (distracted) {
-          startpomo();
-          window.electronAPI.fadeout()
-          distracted = false
-        }
+      else if((timeDifference <= 10 || !lookingAway) && distracted){
+        startpomo();
+        window.electronAPI.fadeout()
+        distracted = false
         console.log(timeDifference.toString())
       };
     }, 1000);
