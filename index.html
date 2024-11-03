@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
 
-  </head>
-  <body>
-    <!-- <p id="timeDisplay">Last Mouse Move Time: <span id="timeValue"></span></p> -->
-    <video src="https://cdn.zilpe.co.uk/plssub.mp4" autoplay loop muted></video>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World!</title>
 
-    <!-- <button type = "button" id = "fadeout">fade out</button> -->
+</head>
 
-    <script type="module" src="/src/renderer.js"></script>
-    <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
-    <p id = "clock"></p>
-    <script>
+<body>
+  <!-- <p id="timeDisplay">Last Mouse Move Time: <span id="timeValue"></span></p> -->
+  <video id="video" autoplay loop muted></video>
+
+  <!-- <button type = "button" id = "fadeout">fade out</button> -->
+
+  <script type="module" src="/src/renderer.js"></script>
+  <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
+  <div id="clock">bruh787676</div>
+  <script>
     window.electronAPI.fadeout()
     var distracted = false;
     var timeDifference = 0
-      // Updates lastMouseMoveTime when the mouse is moved
+    // Updates lastMouseMoveTime when the mouse is moved
     var lastInputTime = new Date();
     var keyboardMouseInput = function () {
       lastInputTime = new Date();
@@ -28,18 +30,18 @@
     document.addEventListener('keyup', keyboardMouseInput, false);
 
     // Check time difference every second
-    
+
     setInterval(() => {
       const currentTime = new Date();
       timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
-      
 
-      if(true) {
+
+      if (true) {
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
         distracted = true;
       }
-      else if(timeDifference <= 20 && distracted){
-        if(distracted){
+      else if (timeDifference <= 20 && distracted) {
+        if (distracted) {
           startpomo();
           window.electronAPI.fadeout()
           distracted = false
@@ -49,9 +51,10 @@
     }, 1000);
 
     //placeholder for function when they are distracted
-    function distractedUser(){
+    function distractedUser() {
       console.log("User is distracted")
       pausepomo();
+      selectVideo()
       window.electronAPI.fadein()
     }
 
@@ -61,33 +64,55 @@
     let pomotimer;
     secselapsed = 0;
     console.log("25 minute")
-    function startpomo(){
-      pomotimer = setInterval(()=>{
+    function startpomo() {
+      pomotimer = setInterval(() => {
         secselapsed += 1;
         minsleft = Math.floor((1800 - secselapsed) / 60);
         secsleft = (1800 - secselapsed) % 60
-        document.getElementById("clock").innerText = ("time remaining: "  + minsleft.toString() + ":" + secsleft.toString())
-        if(secselapsed == 1500){
+        document.getElementById("clock").innerText = ("time remaining: " + minsleft.toString() + ":" + secsleft.toString())
+        if (secselapsed == 1500) {
           console.log("5 minute break");
         }
-        if(secselapsed == 1800){
+        if (secselapsed == 1800) {
           console.log("25 minute");
           secselapsed = 0;
         }
-      },1000)
+      }, 1000)
     }
     startpomo();
-    function pausepomo(){
+    function pausepomo() {
       clearInterval(pomotimer);
       console.log("paused")
     }
-    </script>
+  </script>
 
 
-    <script src="./src/lib/facetracking.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
-    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+  <script src="./src/lib/facetracking.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
 
-    <script src="./src/lib/genai.js" type="module"></script>
-  </body>
+  <script src="./src/lib/genai.js" type="module"></script>
+
+  <script>
+    let currentVideo = "https://cdn.zilpe.co.uk/plssub.mp4"
+    let videos = [
+      ["https://cdn.zilpe.co.uk/plssub.mp4"], //subway surfers
+      ["https://cdn.zilpe.co.uk/About%20time%20i%20did%20one%20of%20these%20(MORE%20STIMULANTS)%20%23familyguy%20%23subwaysurfers%20%23fyp%20%23familyguyclip%20%20%5B7188556176060173574%5D.mp4", "https://cdn.zilpe.co.uk/Stewie%20is%20ready%20for%20anything%20%F0%9F%98%82%F0%9F%92%80%EF%BD%9C%20Family%20guy%20Funny%20moments%20!!%20%5BCBb0WcpHVEQ%5D.mp4", "https://cdn.zilpe.co.uk/Stewie%20won%20a%20pig%20%EF%BD%9C%20%23shorts%20%23familyguy%20%5BiU-UgDLLljw%5D.mp4", "https://cdn.zilpe.co.uk/That%20one%20has%20a%20mind%20of%20its%20own%F0%9F%98%82%20%5BI8fpx_ZYS0Q%5D.mp4"], //family guy
+      ["https://cdn.zilpe.co.uk/Kinetic%20Sand%20Compilation%20%EF%BD%9C%20Relaxing%20Satisfying%20ASMR%20%23satisfying%20%23asmr%20%23relaxing%20%23crush%20%23kineticsand%20%5B7223019397613407530%5D.mp4", "https://cdn.zilpe.co.uk/very%20satisfying%20and%20relexing%20kinetic%20sand%20asmr%23fyp%20%23satisfyingvideo%20%23foryoupage%20%23crushingasmr%20%23sandart%20%23sandart%20%23kineticsand%20%5B7430171366239784224%5D.mp4", "https://cdn.zilpe.co.uk/%F0%9F%93%8CSand%20ASMR%20%23tingles%23sandasmr%23sandasmrvideos%23sand%23satisfying%23satisfyingvideo%23kineticsand%23kineticsandsquish%23sandcuttingasmr%23relaxing%23relaxingvideo%23sandmade%20%5B7318353016170548487%5D.mp4"], //kinetic sand
+      ["https://cdn.zilpe.co.uk/Sunset%20Minecraft%20Parkour%E2%A7%B8Free%20To%20Use%E2%A7%B8No%20Copyright%20%23nocopyright%20%23minecraft%20%23minecraftparcour%20%23gameplay%20%23freetouse%20%23fyp%20%23share%20%23like%20%23follow%20%5B7362058293134576929%5D.mp4"]  //minecraft parkour
+    ]
+
+    function selectVideo() {
+      let category = Math.floor(Math.random() * 4)
+      currentVideo = videos[category][Math.floor(Math.random() * videos[category].length)]
+      document.getElementById("video").src = currentVideo
+    }
+
+    window.onload = function () {
+      selectVideo();
+    };
+
+  </script>
+</body>
+
 </html>
