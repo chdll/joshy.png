@@ -14,7 +14,7 @@
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <script>
-    window.electronAPI.fadeout()
+    //window.electronAPI.fadeout()
     var distracted = false;
     var timeDifference = 0
       // Updates lastMouseMoveTime when the mouse is moved
@@ -55,31 +55,22 @@
     // Time at start of program
     // probably change to be initialised when user presses start
     const startTime = new Date();
-
-    function startPomodoroTimer() {
-      console.log("25 Minute Timer Started at: " + (new Date()).toDateString());
-    };
-    function startBreakTimer() {
-      console.log("5 Minute Break Timer Started at: " + (new Date()).toDateString());
-    };
-    function scheduleTimers() {
-      startPomodoroTimer(); // Start the Pomodoro timer immediately
-      setInterval(() => {
-        const elapsedTime = Date.now() - startTime; // Calculate elapsed time in milliseconds
-
-        // Trigger startPomodoroTimer every 30 seconds
-        if (elapsedTime % 30000 < 1000 && elapsedTime > 0) {
-          startPomodoroTimer();
+    let pomotimer;
+    secselapsed = 0;
+    console.log("25 minute")
+    function startpomo(){
+      pomotimer = setInterval(()=>{
+        secselapsed += 1;
+        if(secselapsed == 25){
+          console.log("5 minute break");
         }
-        // Trigger startBreakTimer 25 seconds into each 30-second cycle
-        else if (elapsedTime % 30000 >= 25000 && elapsedTime % 30000 < 26000) {
-          startBreakTimer();
+        if(secselapsed == 30){
+          console.log("25 minute");
+          secselapsed = 0;
         }
-
-        console.log("Elapsed time: " + elapsedTime + " ms");
-    }, 1000); // Check every second
-}
-    scheduleTimers()
+      },1000)
+    }
+    startpomo();
     </script>
   </body>
 </html>
