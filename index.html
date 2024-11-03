@@ -68,7 +68,7 @@
         secselapsed += 1;
         minsleft = Math.floor((timetotal - secselapsed) / 60);
         secsleft = (timetotal - secselapsed) % 60
-        document.getElementById("clock").innerText = ("time remaining: " + minsleft.toString() + ":" + secsleft.toString())
+        document.getElementById("clock").innerText = ("time remaining: " + minsleft.toString().padStart(2, "0") + ":" + secsleft.toString().padStart(2, "0"))
         if (secselapsed == 1500) {
           console.log("5 minute break");
           timetotal = 300;
