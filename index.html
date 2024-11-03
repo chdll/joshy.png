@@ -13,11 +13,13 @@
 
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
+    <p id = "clock"></p>
     <script>
-    //window.electronAPI.fadeout()
-    let distracted = false;
+    window.electronAPI.fadeout()
+    var distracted = false;
+    var timeDifference = 0
       // Updates lastMouseMoveTime when the mouse is moved
-    var lastInputTime = Date();
+    var lastInputTime = new Date();
     var keyboardMouseInput = function () {
       lastInputTime = new Date();
     }
@@ -26,59 +28,59 @@
     document.addEventListener('keyup', keyboardMouseInput, false);
 
     // Check time difference every second
+    
     setInterval(() => {
       const currentTime = new Date();
-      const timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
+      timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
       
-      if(typeof timeDifference === NaN){
-        timeDifference = 0
-      };
 
-      if(timeDifference > 20 && distracted == false) {
+      if(timeDifference > 20.0 && distracted == false) {
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
         distracted = true;
       }
-      else{
-        // console.log(timeDifference.toString())
+      else if(timeDifference <= 20 && distracted){
+        if(distracted){
+          startpomo();
+          window.electronAPI.fadeout()
+          distracted = false
+        }
+        console.log(timeDifference.toString())
       };
     }, 1000);
 
     //placeholder for function when they are distracted
     function distractedUser(){
-      distracted = false
       console.log("User is distracted")
-      // window.electronAPI.fadein()
+      pausepomo();
+      window.electronAPI.fadein()
     }
 
     // Time at start of program
     // probably change to be initialised when user presses start
     const startTime = new Date();
-
-    function startPomodoroTimer() {
-      // console.log("25 Minute Timer Started at: " + (new Date()).toDateString());
-    };
-    function startBreakTimer() {
-      // console.log("5 Minute Break Timer Started at: " + (new Date()).toDateString());
-    };
-    function scheduleTimers() {
-      startPomodoroTimer(); // Start the Pomodoro timer immediately
-
-      setInterval(() => {
-        const elapsedTime = Date.now() - startTime; // Calculate elapsed time in milliseconds
-
-        // Trigger startPomodoroTimer every 30 seconds
-        if (elapsedTime % 30000 < 1000 && elapsedTime > 0) {
-          startPomodoroTimer();
+    let pomotimer;
+    secselapsed = 0;
+    console.log("25 minute")
+    function startpomo(){
+      pomotimer = setInterval(()=>{
+        secselapsed += 1;
+        minsleft = Math.floor((1800 - secselapsed) / 60);
+        secsleft = (1800 - secselapsed) % 60
+        document.getElementById("clock").innerText = ("time remaining: "  + minsleft.toString() + ":" + secsleft.toString())
+        if(secselapsed == 1500){
+          console.log("5 minute break");
         }
-        // Trigger startBreakTimer 25 seconds into each 30-second cycle
-        else if (elapsedTime % 30000 >= 25000 && elapsedTime % 30000 < 26000) {
-          startBreakTimer();
+        if(secselapsed == 1800){
+          console.log("25 minute");
+          secselapsed = 0;
         }
-
-        // console.log("Elapsed time: " + elapsedTime + " ms");
-    }, 1000); // Check every second
-}
-    scheduleTimers()
+      },1000)
+    }
+    startpomo();
+    function pausepomo(){
+      clearInterval(pomotimer);
+      console.log("paused")
+    }
     </script>
 
 
