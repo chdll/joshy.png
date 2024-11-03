@@ -43,7 +43,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     nwidth,
     height,
-    frame: false,
+    // frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -57,7 +57,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   
 };
 
