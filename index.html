@@ -13,6 +13,7 @@
 
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
+    <p id = "clock"></p>
     <script>
     //window.electronAPI.fadeout()
     var distracted = false;
@@ -39,6 +40,7 @@
       }
       else if(timeDifference <= 20 && distracted){
         if(distracted){
+          startpomo();
           window.electronAPI.fadeout()
           distracted = false
         }
@@ -49,6 +51,7 @@
     //placeholder for function when they are distracted
     function distractedUser(){
       console.log("User is distracted")
+      pausepomo();
       window.electronAPI.fadein()
     }
 
@@ -61,16 +64,23 @@
     function startpomo(){
       pomotimer = setInterval(()=>{
         secselapsed += 1;
-        if(secselapsed == 25){
+        minsleft = Math.floor((1800 - secselapsed) / 60);
+        secsleft = (1800 - secselapsed) % 60
+        console.log("time remaining: "  + minsleft.toString() + ":" + secsleft.toString())
+        if(secselapsed == 1500){
           console.log("5 minute break");
         }
-        if(secselapsed == 30){
+        if(secselapsed == 1800){
           console.log("25 minute");
           secselapsed = 0;
         }
       },1000)
     }
     startpomo();
+    function pausepomo(){
+      clearInterval(pomotimer);
+      console.log("paused")
+    }
     </script>
   </body>
 </html>
