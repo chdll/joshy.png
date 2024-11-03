@@ -61,19 +61,22 @@
     const startTime = new Date();
     let pomotimer;
     secselapsed = 0;
+    timetotal = 1500
     console.log("25 minute")
     function startpomo() {
       pomotimer = setInterval(() => {
         secselapsed += 1;
-        minsleft = Math.floor((1800 - secselapsed) / 60);
-        secsleft = (1800 - secselapsed) % 60
+        minsleft = Math.floor((timetotal - secselapsed) / 60);
+        secsleft = (timetotal - secselapsed) % 60
         document.getElementById("clock").innerText = ("time remaining: " + minsleft.toString() + ":" + secsleft.toString())
         if (secselapsed == 1500) {
           console.log("5 minute break");
+          timetotal = 300;
         }
         if (secselapsed == 1800) {
           console.log("25 minute");
           secselapsed = 0;
+          timetotal = 1500;
         }
       }, 1000)
     }
