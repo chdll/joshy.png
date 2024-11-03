@@ -34,7 +34,7 @@
       timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
       
 
-      if(timeDifference > 20.0 && distracted == false) {
+      if(lookingAway) {
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
         distracted = true;
       }
