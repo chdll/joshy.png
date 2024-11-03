@@ -54,6 +54,7 @@ app.whenReady().then(() => {
     nwidth,
     height,
     frame: false,
+    alwaysOnTop: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -67,7 +68,7 @@ app.whenReady().then(() => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   ;
 
   // On OS X it's common to re-create a window in the app when the
