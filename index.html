@@ -19,6 +19,7 @@
   <script>
     window.electronAPI.fadeout()
     var distracted = false;
+    var onbreak = false;
     var timeDifference = 0
     // Updates lastMouseMoveTime when the mouse is moved
     var lastInputTime = new Date();
@@ -36,11 +37,11 @@
       timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
       
 
-      if((timeDifference > 10.0 && lookingAway) && distracted == false) {
+      if(((timeDifference > 10.0 && lookingAway) && distracted == false) && onbreak == false) {
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
         distracted = true;
       }
-      else if((timeDifference <= 10 || !lookingAway) && distracted){
+      else if(((timeDifference <= 10 || !lookingAway) && distracted) && onbreak == false){
         startpomo();
         document.getElementById("video").muted = true;
         window.electronAPI.fadeout();
@@ -74,9 +75,16 @@
         if (secselapsed == 1500) {
           console.log("5 minute break");
           timetotal = 300;
+          onbreak = true
+          selectVideo()
+          window.electronAPI.fadein()
+          document.getElementById("video").muted = false;
         }
         if (secselapsed == 1800) {
           console.log("25 minute");
+          document.getElementById("video").muted = true;
+          window.electronAPI.fadeout();
+          onbreak = false;
           secselapsed = 0;
           timetotal = 1500;
         }
