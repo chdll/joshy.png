@@ -46,13 +46,13 @@ app.whenReady().then(() => {
     ipcMain.on('fadeout', fadeout)
     ipcMain.on('fadein', fadein)
   // Create the browser window.
-  const display = screen.getPrimaryDisplay()
-  const {width, height} = display.workAreaSize
-  const nheight = height * 0.9
-  const nwidth = (nheight/16) * 9
+  // const display = screen.getPrimaryDisplay()
+  // const {width, height} = display.workAreaSize
+  // const nheight = height * 0.9
+  // const nwidth = (nheight/16) * 9
   mainWindow = new BrowserWindow({
-    nwidth,
-    height,
+    width: 710,
+    height: 1500,
     frame: false,
     alwaysOnTop: true,
     webPreferences: {

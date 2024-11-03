@@ -32,7 +32,7 @@ function setup() {
 let lookingAway;
 
 function draw() {
-    image(video, 0, 0)
+    // image(video, 0, 0)
 
     if (poses.length > 0) {
         let pose = poses[0];
@@ -46,11 +46,11 @@ function draw() {
 
         for (let i = 0; i < 5; i++) {
             let keypoint = pose.keypoints[i];
-            fill(255,0,0);
-            noStroke()
-            if (keypoint.confidence > 0) {
-                circle(keypoint.x, keypoint.y, 12)
-            }
+            // fill(255,0,0);
+            // noStroke()
+            // if (keypoint.confidence > 0) {
+            //     circle(keypoint.x, keypoint.y, 12)
+            // }
 
             // if (pose.left_ear.x > pose.left_eye.x) {
             //     console.log('looking LEFT')
