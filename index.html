@@ -42,14 +42,16 @@
       }
       else if((timeDifference <= 10 || !lookingAway) && distracted){
         startpomo();
-        window.electronAPI.fadeout()
-        distracted = false
-        console.log(timeDifference.toString())
+        document.getElementById("video").muted = true;
+        window.electronAPI.fadeout();
+        distracted = false;
+        console.log(timeDifference.toString());
       };
     }, 1000);
 
     //placeholder for function when they are distracted
     function distractedUser() {
+      document.getElementById("video").muted = false;
       console.log("User is distracted")
       pausepomo();
       selectVideo()
