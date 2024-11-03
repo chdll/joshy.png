@@ -2,5 +2,6 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 const { contextBridge, ipcRenderer } = require('electron')
 contextBridge.exposeInMainWorld('electronAPI', {
-    fadeout: () => ipcRenderer.send('fadeout')
+    fadeout: () => ipcRenderer.send('fadeout'),
+    fadein: () => ipcRenderer.send('fadein')
 })

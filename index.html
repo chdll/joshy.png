@@ -14,7 +14,7 @@
     <script type="module" src="/src/renderer.js"></script>
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <script>
-    
+    window.electronAPI.fadeout()
     let distracted = false;
       // Updates lastMouseMoveTime when the mouse is moved
     var lastInputTime = Date();
@@ -29,7 +29,7 @@
     setInterval(() => {
       const currentTime = new Date();
       const timeDifference = (currentTime - lastInputTime) / 1000; // Convert to seconds
-
+      
       if(typeof timeDifference === NaN){
         timeDifference = 0
       };
@@ -39,7 +39,7 @@
         distracted = true;
       }
       else{
-        console.log = timeDifference.toString();
+        console.log(timeDifference.toString())
       };
     }, 1000);
 
@@ -47,6 +47,7 @@
     function distractedUser(){
       distracted = false
       console.log("User is distracted")
+      window.electronAPI.fadein()
     }
 
     // Time at start of program
