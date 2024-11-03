@@ -3,10 +3,10 @@ body {
     Arial, sans-serif;
   margin: auto;
   max-width: 38rem;
-  padding: 2rem;
+  padding: 0;
 }
 video {
-  height : 50%;
-  width : 100%;
-  object-fit:fill;
+  width: auto;
+  height:auto;
+  object-fit: fill;
 } 

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, webFrame, ipcRenderer, ipcMain } = require('electron');
+const { app, BrowserWindow, webFrame, ipcRenderer, ipcMain, screen } = require('electron');
 const path = require('node:path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -36,9 +36,13 @@ function fade(fadeout){
 }
 const createWindow = () => {
   // Create the browser window.
+  const display = screen.getPrimaryDisplay()
+  const {width, height} = display.workAreaSize
+  const nheight = height * 0.9
+  const nwidth = (nheight/16) * 9
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    nwidth,
+    height,
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
