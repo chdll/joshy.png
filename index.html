@@ -15,7 +15,7 @@
     <script scr="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <p id = "clock"></p>
     <script>
-    //window.electronAPI.fadeout()
+    window.electronAPI.fadeout()
     var distracted = false;
     var timeDifference = 0
       // Updates lastMouseMoveTime when the mouse is moved
@@ -66,7 +66,7 @@
         secselapsed += 1;
         minsleft = Math.floor((1800 - secselapsed) / 60);
         secsleft = (1800 - secselapsed) % 60
-        console.log("time remaining: "  + minsleft.toString() + ":" + secsleft.toString())
+        document.getElementById("clock").innerText = ("time remaining: "  + minsleft.toString() + ":" + secsleft.toString())
         if(secselapsed == 1500){
           console.log("5 minute break");
         }
