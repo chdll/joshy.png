@@ -37,7 +37,7 @@
         distractedUser(); // Call the function if more than 20 seconds elapse between inputs
         distracted = true;
       }
-      else if(timeDifference <= 20){
+      else if(timeDifference <= 20 && distracted){
         if(distracted){
           window.electronAPI.fadeout()
           distracted = false
@@ -64,7 +64,6 @@
     };
     function scheduleTimers() {
       startPomodoroTimer(); // Start the Pomodoro timer immediately
-
       setInterval(() => {
         const elapsedTime = Date.now() - startTime; // Calculate elapsed time in milliseconds
 
